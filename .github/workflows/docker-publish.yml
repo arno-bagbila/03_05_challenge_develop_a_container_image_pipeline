@@ -7,13 +7,13 @@ name: Docker
 
 on:
   schedule:
-    - cron: '43 18 * * *'
+    - cron: "43 18 * * *"
   push:
-    branches: [ "master" ]
+    branches: ["master"]
     # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
+    tags: ["v*.*.*"]
   pull_request:
-    branches: [ "master" ]
+    branches: ["master"]
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -21,13 +21,12 @@ env:
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
 
-
 jobs:
   integration:
     uses: arno-bagbila/03_05_integration/.github/workflows/python-app.yml@master
     permissions:
       contents: read
-      
+
   build:
     needs: [integration]
     runs-on: ubuntu-latest
@@ -46,9 +45,9 @@ jobs:
       # https://github.com/sigstore/cosign-installer
       - name: Install cosign
         if: github.event_name != 'pull_request'
-        uses: sigstore/cosign-installer@main
+        uses: sigstore/cosign-installer@v3.4.0
         with:
-          cosign-release: "v2.0.2" # optional'
+          cosign-release: "v3.4.0" # optional'
 
       # Set up BuildKit Docker container builder to be able to build
       # multi-platform images and export cache
